@@ -1,0 +1,77 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAES - IPN</title>
+    <link rel="stylesheet" href="{% static 'css/Default.css' %}">
+    <link rel="stylesheet" href="{% static 'css/normalize.css' %}">
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+</head>
+
+<body>
+    <!-- Encabezado -->
+    <header>
+        <div class="logo">
+            {% comment %} <a href="{% url 'home' %}"><img src="{% static 'img/LogoP.png' %}" alt="Logo IPN"></a> {% endcomment %}
+        </div>
+        {% comment %} <nav>
+            <ul>
+                <li><a href="#">Inicio</a></li>
+                <li><a href="#">Reglamento</a></li>
+                <li><a href="#">Ayuda</a></li>
+                <li><a href="#">Recuperar Contraseña</a></li>
+            </ul>
+        </nav> {% endcomment %}
+    </header>
+
+    <!-- Contenido Principal -->
+    <main>
+        <section class="login-section">
+            <div class="header-main">
+                <div class="logo">
+                    <img src="{% static 'img/logoipn.png' %}" alt="Logo IPN">
+                </div>
+                <div class="banner" style="font-weight: bold; font-size: medium; color: maroon; font-family: Tahoma; 
+                font-variant: small-caps; right: 139px; text-align: center; width: 720px;">
+                    ESCUELA SUPERIOR DE CÓMPUTO
+                </div>
+                <div class="logo_escuela">
+                    <img src="{% static 'img/LogoE.png' %}" alt="Logo ESCOM">
+                </div>
+            </div>
+            <div class="content-login">
+                <div class="leftcolumn">
+                    <div class="leftcolcontainer">
+                        <div class="sidebarcontainer">
+                            {% block sidebar %}
+                            {% endblock sidebar %}
+                        </div>
+                    </div>
+                </div>
+                <div class="center-content">
+                    <div class="copy">
+                        <div class="copy-container" style="padding: 0 20px 15px 20px;">
+                            {% block centercontainer %}
+                            {% endblock centercontainer %}
+                        </div>
+                    </div>
+                </div>
+                <div class="content-footer">
+                    {% block contentfooter %}
+                    {% endblock contentfooter %}
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Pie de página -->
+    <footer>
+        <p>&copy; 2024 SAES - IPN</p>
+        <p>Enlaces: <a href="#">IPN</a> | <a href="#">Gobierno</a> | <a href="#">Trámites</a></p>
+    </footer>
+</body>
+
+</html>

@@ -1,0 +1,32 @@
+{% extends "base_log.html" %}
+
+{% load static %}
+{% block centercontainer %}
+<center style="font-weight:bold; padding: 1rem 0;">LISTADO DE ALUMNOS<br></center>
+    {% if DetailAlumnos %}
+    <div class="table-container table-responsive">
+        <table class="center">
+            <thead style="text-transform: uppercase; font-weight: bold;">
+                <tr>
+                    <td>Boleta:</td>
+                    <td>Nombre:</td>
+                    <td>Correo:</td>
+                    <td>Carrera:</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for alumno in DetailAlumnos %}
+                <tr>
+                    <td>{{ alumno.boleta }}</td>
+                    <td>{{ alumno.nombre }}</td>
+                    <td>{{ alumno.correo }}</td>
+                    <td>{{ alumno.programaAcademico }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <script src="{% static 'js/detailets.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/ETS.css' %}">
+    {% endif %}
+{% endblock centercontainer %}

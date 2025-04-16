@@ -1,0 +1,33 @@
+.CampoFoto {
+    width: 50%;
+}
+
+.CampoFoto video {
+    width: 100%;
+}
+
+.fotoperfil {
+    width: 100%;
+}
+
+.contenedor_campos {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 2rem;
+}
+
+#camara {
+    margin: 0.3rem;
+}
+
+#captura-btn, #grabar-btn {
+    text-align: center;
+    width: 100%;
+    padding: 10px;
+    background-color: #8b0000;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}

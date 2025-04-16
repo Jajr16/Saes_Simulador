@@ -1,0 +1,19 @@
+{% extends "base_log.html" %}
+
+{% load static %}
+{% block centercontainer %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <div>
+        <div class="welcome">
+            <div class="TextLeft">
+                <center style="font-weight:bold; padding-top: 1rem;">MENÚ PRINCIPAL DE ALUMNOS<br></center>
+                <p id="ctl00_mainCopy_FormView1_SALUDOLabel" style="color:Maroon;">BUENAS TARDES </p>
+            </div>
+            <img src="{% static 'img/LogoE.png' %}" class="floatRight" style="height:90px;width:90px;border-width:0px;">
+        </div>
+    </div>
+    <div class="floatBottom floatCenter">
+        <img src="{% static 'img/aviso.png' %}" style="border-width:0px;">
+        <img src="{% static 'img/Denuncia.jpg' %}" style="border-width:0px;height:230px;width:600px;">
+    </div>
+{% endblock centercontainer %}

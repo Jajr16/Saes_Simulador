@@ -1,0 +1,76 @@
+{% extends "base_log.html" %}
+
+{% load static %}
+{% block centercontainer %}
+<center style="font-weight:bold; padding: 1rem 0;">Registrar Nuevo Docente <br></center>
+    <div class="table-container table-responsive">
+        <div class="center">
+            {% if form.errors %}
+                <div class="alert alert-danger" style="color: red; font-size: 15px" align="right">
+                    <ul class="mb-0">
+                        {% for field, errors in form.errors.items %}
+                            {% for error in errors %}
+                                <li>{{ field|title }}: {{ error }}</li>
+                            {% endfor %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+            
+            {% if message %}
+                {% if Error %}
+                    <div style="text-align: center; color: red; font-size: 15px">
+                        {{ message }}
+                    </div>
+                {% else %}
+                    <div style="text-align: center">
+                        {{ message }}
+                    </div>
+                {% endif %}
+            {% endif %}
+
+            <form action="{% url 'ndocente' %}" method="POST" class="login-form">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="CURP">CURP:</label>
+                    {{ form.curp }}
+                </div>
+                <div class="form-group">
+                    <label for="RFC">RFC:</label>
+                    {{ form.rfc }}
+                </div>
+                <div class="form-group">
+                    <label for="nombre">Nombre(s):</label>
+                    {{ form.nombre }}
+                </div>
+                <div class="form-group">
+                    <label for="ApellidoP">Apellido paterno:</label>
+                    {{ form.apellido_P }}
+                </div>
+                <div class="form-group">
+                    <label for="ApellidoM">Apellido materno:</label>
+                    {{ form.apellido_M }}
+                </div>
+                <div class="form-group">
+                    <label for="sexo">Sexo:</label>
+                    {{ form.sexo }}
+                </div>
+                <div class="form-group">
+                    <label for="correo">Correo Institucional:</label>
+                    {{ form.correo }}
+                </div>
+                <div class="form-group">
+                    <label for="cargo">Cargo:</label>
+                    {{ form.cargo }}
+                </div>
+                <div class="form-group">
+                    <label for="turno">Turno:</label>
+                    {{ form.turno }}
+                </div>
+                <button type="submit" id="ctl00_leftColumn_LoginUser_LoginButton">Guardar</button>
+            </form>
+        </div>
+    </div>
+    <script src="{% static 'js/detailets.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/ETS.css' %}">
+{% endblock centercontainer %}

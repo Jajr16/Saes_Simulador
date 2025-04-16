@@ -1,0 +1,76 @@
+{% extends "base_log.html" %}
+
+{% load static %}
+{% block centercontainer %}
+<center style="font-weight:bold; padding: 1rem 0;">Registrar Nuevo ETS <br></center>
+    <div class="table-container table-responsive">
+        <div class="center">
+            {% if form.errors %}
+                <div class="alert alert-danger" style="color: red; font-size: 15px" align="right">
+                    <ul class="mb-0">
+                        {% for field, errors in form.errors.items %}
+                            {% for error in errors %}
+                                <li>{{ field|title }}: {{ error }}</li>
+                            {% endfor %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+            
+            {% if message %}
+                {% if Error %}
+                    <div style="text-align: center; color: red; font-size: 15px">
+                        {{ message }}
+                    </div>
+                {% else %}
+                    <div style="text-align: center">
+                        {{ message }}
+                    </div>
+                {% endif %}
+            {% endif %}
+
+            <form action="{% url 'nets' %}" method="POST" class="login-form">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="idPeriodo">Periodo:</label>
+                    {{ form.idPeriodo }}
+                </div>
+                <div class="form-group">
+                    <label for="idUA">Unidad de Aprendizaje:</label>
+                    {{ form.idUA }}
+                </div>
+                <div class="form-group">
+                    <label for="Turno">Turno:</label>
+                    {{ form.Turno }}
+                </div>
+                <div class="form-group">
+                    <label for="Fecha">Fecha de aplicación:</label>
+                    {{ form.Fecha }}
+                </div>
+                <div class="form-group">
+                    <label for="Hora">Hora de aplicación:</label>
+                    {{ form.hora }}
+                </div>
+                <div class="form-group">
+                    <label for="Cupo">Cupo máximo del ETS:</label>
+                    {{ form.Cupo }}
+                </div>
+                <div class="form-group">
+                    <label for="Duracion">Duracion del ETS:</label>
+                    {{ form.Duracion }}
+                </div>
+                <div class="form-group">
+                    <label for="Docente">Docente a cargo:</label>
+                    {{ form.docente }}
+                </div>
+                <div class="form-group">
+                    <label for="Salon">Salon de aplicación:</label>
+                    {{ form.salon }}
+                </div>
+                <button type="submit" id="ctl00_leftColumn_LoginUser_LoginButton">Guardar</button>
+            </form>
+        </div>
+    </div>
+    <script src="{% static 'js/detailets.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/ETS.css' %}">
+{% endblock centercontainer %}

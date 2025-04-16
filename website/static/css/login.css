@@ -1,0 +1,14 @@
+.captcha-image {
+    margin-top: 10px;
+    width: 100px;
+    height: auto;
+    display: block;
+}
+
+#ctl00_mainCopy_Lbl_Mensaje {
+    padding: 0 10rem;
+}
+
+.sidebarcontainer {
+    padding: 0.5rem;
+}

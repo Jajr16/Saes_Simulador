@@ -1,0 +1,30 @@
+{% extends "base_log.html" %}
+
+{% load static %}
+{% block centercontainer %}
+<center style="font-weight:bold; padding: 1rem 0;">LISTADO DE DOCENTES<br></center>
+    {% if DetailDocentes %}
+    <div class="table-container table-responsive">
+        <table class="center">
+            <thead style="text-transform: uppercase; font-weight: bold;">
+                <tr>
+                    <td>Nombre:</td>
+                    {% comment %} <td>Cargo:</td> {% endcomment %}
+                    <td>Correo:</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for docente in DetailDocentes %}
+                <tr>
+                    <td>{{ docente.nombre }}</td>
+                    {% comment %} <td>{{ docente.cargo }}</td> {% endcomment %}
+                    <td>{{ docente.correo }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <script src="{% static 'js/detailets.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/ETS.css' %}">
+    {% endif %}
+{% endblock centercontainer %}

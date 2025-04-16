@@ -1,0 +1,54 @@
+{% extends "base_log.html" %}
+
+{% load static %}
+{% block centercontainer %}
+<center style="font-weight:bold; padding: 1rem 0;">LISTADO DE ETS<br></center>
+    {% if DetallesETS %}
+    <div class="table-container table-responsive">
+        <table class="center">
+            <thead style="text-transform: uppercase; font-weight: bold;">
+                <tr>
+                    <td>CARRERA:</td>
+                    <td>PLAN:</td>
+                    <td>NO MAT:</td>
+                    <td>MATERIA:</td>
+                    <td>TURNO:</td>
+                    <td></td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ets in DetallesETS %}
+                <tr>
+                    <td>{{ ets.programaAcademico }}</td>
+                    <td>{{ ets.idPeriodo }}</td>
+                    <td>{{ ets.idUA }}</td>
+                    <td>{{ ets.unidadAprendizaje }}</td>
+                    <td>{{ ets.turno }}</td>
+                    <td><a class="button-detail">Detalles</a></td>
+                </tr>
+                <tr class="detail-row" style="display: none;">
+                    <td colspan="3">
+                        <label><b>Tipo:</b></label>
+                        {% if ets.tipoETS == "O" %}
+                            Ordinario
+                        {% else %}
+                            Especial
+                        {% endif %}<br>
+                        <label><b>Fecha:</b></label>
+                        {{ ets.fecha }}
+                    </td>
+                    <td colspan="3">
+                        <label><b>Cupo:</b></label>
+                        {{ ets.cupo }}<br>
+                        <label><b>Duración:</b></label>
+                        {{ ets.duracion }}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <script src="{% static 'js/detailets.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/ETS.css' %}">
+    {% endif %}
+{% endblock centercontainer %}

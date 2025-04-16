@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+
+{% block sidebar %}
+{% load static %}
+    <h3>Iniciar Sesion</h3>
+    <form action="{% url 'login' %}" method="POST" class="login-form">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="boleta-id">Usuario:</label>
+            {{ form.boleta }}
+        </div>
+    
+        <div class="form-group">
+            <label for="password-id">Password:</label>
+            {{ form.contraseña }}
+        </div>
+    
+        <div class="form-group">
+            <label for="captcha-text">Captcha:</label>
+            <div id="captcha-container" class="captcha-box">
+                <div id="c_default_ctl00_leftcolumn_loginuser_logincaptcha_CaptchaImage" class="captcha-image-box">
+                    {{ form.captcha }} 
+                </div>
+                {% if messages %}
+                    <ul>
+                        {% for message in messages %}
+                        <li>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                {% if form.captcha.errors %}
+                    <div class="error">{{ form.captcha.errors }}</div>
+                {% endif %}
+            </div>
+        </div>
+        <button type="submit" id="ctl00_leftColumn_LoginUser_LoginButton">Iniciar</button>
+        {% if error_message %}
+        <span class="failureNotification" style="color: red; font-size: 15px" align="right">
+            <p style="color:red; font-size: 14px; font-weight: bold; text-align: left;">{{ error_message }}</p>
+        </span>
+        {% endif %}
+    </form>
+{% endblock sidebar %}
+
+{% block centercontainer %}
+    <center style="font-size:20px;font-weight:bold;">Sistema de Administración Escolar</center>
+    <img src="{% static 'img/alumnos.jpg' %}" class="floatRight" style="height:90px;width:90px;border-width:0px;">
+    <p style="text-align: center;">Es la herramienta informática diseñada para apoyar en la consulta y atención de trámites escolares.</p>
+    <hr style="border:2px solid #6C1D45;border-radius:5px;">
+    <span id="ctl00_mainCopy_Lbl_Mensaje">
+        <center>  
+            <div style="background-color:#6C1458; color:white; font-size:16px; font-weight:bold; Width:500px">
+                Ingresa a realizar tu denuncia&nbsp;segura en:
+                <br> 
+                <a href=" https://denunciasegura.ipn.mx/index.php?r=site/condiciones  ">
+                    <div style="background-color:white; color:blue; font-size:17px; font-weight:bold; Width:500px">
+                        denunciasegura.ipn.mx
+                    </div>
+                </a>
+            </div>
+        </center> 
+        <div style="background-color:white; font-size:5px; Width:500px">  
+            <br>
+        </div>  
+        <center>
+            <div style="background-color:#6C1458; color:white; font-size:16px; font-weight:bold; Width:500px">
+                ¿Necesitas orientación o levantar una queja?&nbsp;Ingresa&nbsp;a:
+                <br> 
+                <a href=" https://www.ipn.mx/defensoria/orientacion-queja/queja.html">
+                    <div style="background-color:white; color:blue; font-size:17px; font-weight:bold; Width:500px">
+                        www.ipn.mx/defensoria/orientacion-queja/queja.html
+                    </div>
+                </a> 
+            </div>
+        </center>
+        <center>
+            <div style="background-color:white; font-size:5px; Width:500px">  
+                <br>
+            </div>  
+            <div style="background-color:#6C1D45 ;color:WHITE; font-size:15px; font-weight:bold; Width:600px">
+                Ahora que has concluido con tu inscripción, es importante que obtengas tú Número de Seguridad Social (NNS). 
+                En caso de que no cuentes con uno, ingresa en:
+            </div>  
+            <div style="font-size:9px; font-weight:bold; Width:600px">
+                <a href=" https://serviciosdigitales.imss.gob.mx/gestionAsegurados-web-externo/asignacionNSS;JSESSIONIDASEGEXTERNO=XoyX2Tm11CUxH6KfPQojwLkvjdY7k4EUjo8RlmRvl0APXNmeAkPw!-777620978 ">
+                    https://serviciosdigitales.imss.gob.mx/gestionAsegurados-web-externo/asignacionNSS;JSESSIONIDASEGEXTERNO=XoyX2Tm11CUxH6KfPQojwLkvjdY7k4EUjo8RlmRvl0APXNmeAkPw!-777620978
+                    <br><br><br>
+                </a>
+            </div>  
+            <div style="background-color:#6C1D45 ;color:WHITE; font-size:15px; font-weight:bold; Width:600px">
+                Una vez que ya lo tengas favor de registrarte en:
+            </div>  
+            <div style="font-size:9px; font-weight:bold; Width:600px">
+                <a href=" https://www.sismi.dse.ipn.mx/portal/f?p=1000:101:10253682110776 ">https://www.sismi.dse.ipn.mx/portal/f?p=1000:101:10253682110776<br><br><br></a>
+            </div>  
+            <div style="background-color:#6C1D45 ;color:WHITE; font-size:15px; font-weight:bold; Width:600px">
+                Para mayor información puedes escribir a este correo electrónico:
+            </div>  
+            <div style="color:#0033FF; font-size:15px; font-weight:bold; Width:600px">afiliacionimss@ipn.mx</div>  
+        </center>
+    </span>
+{% endblock centercontainer %}
+{% block contentfooter %}
+{% endblock contentfooter %}

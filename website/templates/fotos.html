@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% load static %}
+
+<table>
+    <thead style="text-transform: uppercase; font-weight: bold;">
+        <tr>
+            <td>Foto:</td>
+            <td>Boleta:</td>
+            <td>Alumno:</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><img src="{% static 'img/LogoP.png' %}" width="50" class="img_php"></td>
+            <td class="boletas_almn">2022630467</td>
+            <td class="name_almn">Jose Jimenez</td>
+        </tr>
+        <tr>
+            <td><img src="{% static 'img/LogoP.png' %}" width="50" class="img_php"></td>
+            <td class="boletas_almn">2022630468</td>
+            <td class="name_almn">Alfredo Rivera</td>
+        </tr>
+        <tr>
+            <td><img src="{% static 'img/LogoP.png' %}" width="50" class="img_php"></td>
+            <td class="boletas_almn">2022630469</td>
+            <td class="name_almn">Ale De la Cruz</td>
+        </tr>
+        <tr>
+            <td><img src="{% static 'img/LogoP.png' %}" width="50" class="img_php"></td>
+            <td class="boletas_almn">2022630460</td>
+            <td class="name_almn">Luis Flores</td>
+        </tr>
+        <tr>
+            <td><img src="{% static 'img/LogoP.png' %}" width="50" class="img_php"></td>
+            <td class="boletas_almn">2022630462</td>
+            <td class="name_almn">Daniel Huertas</td>
+        </tr>
+    </tbody>
+</table>
+
+{% endblock content %}

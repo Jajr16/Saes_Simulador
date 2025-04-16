@@ -1,0 +1,19 @@
+.floatBottom {
+    position: relative;
+    bottom: -7rem;
+}
+
+.floatCenter {
+    justify-content: center;
+    display: grid;
+}
+
+.TextLeft {
+    text-align: right;
+}
+
+.welcome {
+    padding-top: 1rem;
+    display: flex;
+    justify-content: space-evenly;
+}
