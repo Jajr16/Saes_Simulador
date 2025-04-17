@@ -147,7 +147,7 @@ class NAlumnoView(View):
         print(request)
         
         api = "nAlumno"
-        form = NAlumnoForm(request.POST)
+        form = NAlumnoForm(request.POST, request.FILES)
         
         if (form.is_valid()):
             curp = form.cleaned_data['curp']
@@ -160,20 +160,22 @@ class NAlumnoView(View):
             escuela = form.cleaned_data['escuela']
             carrera = form.cleaned_data['carrera']
             
-            credencial = request.FILES.get("foto-file")
             video = request.FILES.get("video-file")
             
             if not video:
                 return render(request, 'New_Alumno.html', {'form': form, 'message': "El video es obligatorio", 'Error': True})
             
-            if credencial:
-                with open(f"website/views/fotos/{boleta}.jpg", "wb") as f:
-                    for chunk in credencial.chunks():
-                        f.write(chunk)
+            # if credencial:
+            #     with open(f"website/views/fotos/{boleta}.jpg", "wb") as f:
+            #         for chunk in credencial.chunks():
+            #             f.write(chunk)
                         
-            foto_path = f"website/views/fotos/{boleta}.jpg" if credencial else None
+            # foto_path = f"website/views/fotos/{boleta}.jpg" if credencial else None
             
-            files = {'video': video}
+            files = {
+                'video': request.FILES.get("video-file"),
+                'credencial': request.FILES.get("foto-file"),
+            }
             data = {
                 "curp": curp,
                 "boleta": boleta,
@@ -184,7 +186,6 @@ class NAlumnoView(View):
                 "correo": correo,
                 "escuela": int(escuela),
                 "carrera": carrera,
-                "credencial": foto_path
             }
             
             response = requests.post(url+api, data=data, files=files)
@@ -198,7 +199,7 @@ class NAlumnoView(View):
                 return JsonResponse(response_data, status=200)
         
         else:
-            return JsonResponse({"message": "Error en el formulario", "Error": True}, status=400)
+            return JsonResponse({"message": form.errors, "Error": True}, status=400)
 
 def asegurarse_de_crear_carpeta(carpeta):
     if not os.path.exists(carpeta):

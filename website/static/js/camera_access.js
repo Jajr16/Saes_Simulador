@@ -30,50 +30,56 @@ captura.addEventListener('click', () => {
 
         mediaRecorder.onstop = async () => {
             const blob = new Blob(recordedChunks, { type: "video/webm" });
+        
+            // Limpiar el src anterior si existía
+            if (video.src) {
+                URL.revokeObjectURL(video.src);
+            }
             const url = URL.createObjectURL(blob);
             video.src = url;
-            
+        
             await new Promise((resolve) => {
                 video.onloadedmetadata = () => {
                     resolve();
                 };
             });
-
-            // Verificar si el video tiene datos antes de capturar la imagen
+        
+            // Asegurarte de que tiene datos válidos
             if (video.videoWidth === 0 || video.videoHeight === 0) {
                 console.error("El video no tiene datos válidos.");
                 return;
             }
-
-            // Ajustar el tamaño del canvas al tamaño del video
+        
+            // Capturar la foto actual del video
             canva.width = video.videoWidth;
             canva.height = video.videoHeight;
-
-            // Dibujar el cuadro del video en el canvas
             dimension.drawImage(video, 0, 0, canva.width, canva.height);
-
-            // Capturar la foto
-            canva.toBlob((blobFoto) => {
-                if (!blobFoto) {
-                    console.error("Error al capturar la foto con toBlob, usando toDataURL.");
-                    return;
-                }
-
-                // Crear archivos para el video y la foto
-                const videoFile = new File([blob], "video.webm", { type: "video/webm" });
-                const fotoFile = new File([blobFoto], "foto.png", { type: "image/png" });
-
-                // Cargar los archivos en los inputs invisibles
-                const dataTransfer = new DataTransfer();
-                dataTransfer.items.add(videoFile);
-                videoInput.files = dataTransfer.files;
-
-                const fotoDataTransfer = new DataTransfer();
-                fotoDataTransfer.items.add(fotoFile);
-                fotoRutaInput.files = fotoDataTransfer.files;
-
-                console.log("Foto capturada y guardada correctamente.");
-            }, "image/png");
+        
+            // Crear los archivos nuevos
+            const videoFile = new File([blob], "video.webm", { type: "video/webm" });
+        
+            const fotoBlob = await new Promise((resolve) => {
+                canva.toBlob((blobFoto) => {
+                    if (!blobFoto) {
+                        console.error("Error al capturar la foto con toBlob");
+                        return;
+                    }
+                    resolve(blobFoto);
+                }, "image/png");
+            });
+        
+            const fotoFile = new File([fotoBlob], "foto.png", { type: "image/png" });
+        
+            // Sobrescribir inputs con los nuevos archivos
+            const videoTransfer = new DataTransfer();
+            videoTransfer.items.add(videoFile);
+            videoInput.files = videoTransfer.files;
+        
+            const fotoTransfer = new DataTransfer();
+            fotoTransfer.items.add(fotoFile);
+            fotoRutaInput.files = fotoTransfer.files;
+        
+            console.log("Video y foto actualizados correctamente.");
         };
     })
     .catch((error) => {
@@ -83,6 +89,7 @@ captura.addEventListener('click', () => {
 
 grabarBtn.addEventListener('click', () => {
     if (mediaRecorder && mediaRecorder.state === "inactive") {
+        recordedChunks = [];
         mediaRecorder.start();
         grabarBtn.innerText = "Grabando...";
         setTimeout(() => {
@@ -103,7 +110,7 @@ document.querySelector("form").addEventListener("submit", function(e) {
         console.log("Formulario listo para enviarse.");
 
         let formData = new FormData(this);
-        formData.append("video-file", videoFile);
+        formData.set("video-file", videoFile);
 
         fetch(this.action, {
             method: "POST",
@@ -117,7 +124,7 @@ document.querySelector("form").addEventListener("submit", function(e) {
         .then(data => {
             console.log("Respuesta del servidor:", data);
             if (data.Error) {
-                alert(data.message);
+                alert(JSON.stringify(data.message));
                 location.reload(); 
             } else {
                 alert(data.message);
