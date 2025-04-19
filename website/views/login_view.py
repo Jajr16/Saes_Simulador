@@ -22,7 +22,7 @@ class LoginView(View):
         """
 
         api_url = "https://springboot-java-production-1f4e.up.railway.app/login"
-
+        # api_url = "http://localhost:8080/login"
         
         form = LoginForm(request.POST)
         
