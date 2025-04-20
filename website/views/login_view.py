@@ -21,8 +21,8 @@ class LoginView(View):
             Función post de la vista encargada de la lógica para el envío de la información del formulario
         """
 
-        api_url = "https://springboot-java-production-1f4e.up.railway.app/login"
-        # api_url = "http://localhost:8080/login"
+        # api_url = "https://springboot-java-production-1f4e.up.railway.app/login"
+        api_url = "http://localhost:8080/login"
         
         form = LoginForm(request.POST)
         
