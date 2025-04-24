@@ -21,8 +21,8 @@ class LoginView(View):
             Función post de la vista encargada de la lógica para el envío de la información del formulario
         """
 
-        # api_url = "https://springboot-java-production-1f4e.up.railway.app/login"
-        api_url = "http://localhost:8080/login"
+        api_url = "https://springboot-ooxx.onrender.com/login"
+        # api_url = "http://localhost:8080/login"
         
         form = LoginForm(request.POST)
         
@@ -38,6 +38,7 @@ class LoginView(View):
             headers = {"Content-Type": "application/json"}
             response = requests.post(api_url, json=data, headers=headers)
             response_data = response.json()
+            print(response_data)
             
             if response_data.get("error_Code") == 0:
                 request.session['usuario'] = response_data["usuario"]
