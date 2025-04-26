@@ -1,4 +1,4 @@
 # URL de la API
 
-url = "https://springboot-java-production-a0b4.up.railway.app/saes/"
+url = "https://serverspringboot-asceeudmhackgbfr.mexicocentral-01.azurewebsites.net/saes/"
 
