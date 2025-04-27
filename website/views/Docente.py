@@ -20,6 +20,8 @@ class DocenteView(View):
         
         response = requests.get(url+api, headers=headers)
         
+        print(response.json())
+        
         context = {
             "DetailDocentes": response.json()
         }
