@@ -5,6 +5,10 @@ from django.shortcuts import render, redirect
 from .url import url
 from ..forms import ETSForm
 
+from django.utils.decorators import method_decorator
+from website.control_cargos import cargo_required
+
+@method_decorator(cargo_required(allowed_roles=['Gestión Escolar']), name='dispatch') 
 class ListETSView(View):
     """
         Clase que define la vista del listado de los ETS registrados
@@ -25,6 +29,7 @@ class ListETSView(View):
         
         return render(request, 'ETS.html', context)
     
+@method_decorator(cargo_required(allowed_roles=['Gestión Escolar']), name='dispatch') 
 class NETSView(View):
     """
         Clase que define la vista del formulario de los ETS 

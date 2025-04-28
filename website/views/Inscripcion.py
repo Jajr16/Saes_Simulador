@@ -7,6 +7,10 @@ from ..forms import InscripcionForm
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
 
+from django.utils.decorators import method_decorator
+from website.control_cargos import cargo_required
+
+@method_decorator(cargo_required(allowed_roles=['Gestión Escolar']), name='dispatch') 
 class InsView(View):
     """
         Clase que define la vista del listado de las inscripciones registradoa
@@ -29,6 +33,7 @@ class InsView(View):
         
         return render(request, 'Inscripcion.html', context)
 
+@method_decorator(cargo_required(allowed_roles=['Gestión Escolar']), name='dispatch') 
 class NInsView(View):
     """
         Clase que define la vista del formulario de alta de Inscripciones

@@ -5,6 +5,10 @@ from django.shortcuts import render, redirect
 from .url import url
 from ..forms import NDocenteForm
 
+from django.utils.decorators import method_decorator
+from website.control_cargos import cargo_required
+
+@method_decorator(cargo_required(allowed_roles=['Gestión Escolar']), name='dispatch') 
 class DocenteView(View):
     """
         Clase que define la vista del listado de los docentes registrados
@@ -27,7 +31,8 @@ class DocenteView(View):
         }
         
         return render(request, 'Docente.html', context)
-    
+
+@method_decorator(cargo_required(allowed_roles=['Gestión Escolar']), name='dispatch') 
 class NDocenteView(View):
     """
         Clase que define la vista del formulario de alta de Docentes

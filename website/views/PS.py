@@ -5,6 +5,10 @@ from django.shortcuts import render, redirect
 from .url import url
 from ..forms import NPSForm
 
+from django.utils.decorators import method_decorator
+from website.control_cargos import cargo_required
+
+@method_decorator(cargo_required(allowed_roles=['Gestión Escolar']), name='dispatch') 
 class PSView(View):
     """
         Clase que define la vista del listado del personal de seguridad
@@ -25,6 +29,7 @@ class PSView(View):
         
         return render(request, 'PS.html', context)
     
+@method_decorator(cargo_required(allowed_roles=['Gestión Escolar']), name='dispatch') 
 class NPSView(View):
     """
         Clase que define la vista del formulario para la alta de nuevo personal de seguridad

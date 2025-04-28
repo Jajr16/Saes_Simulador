@@ -1,31 +1,15 @@
 import requests
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.views import View
 from django.shortcuts import render, redirect
 from .url import url
 from ..forms import NAlumnoForm
 from ..forms import NAlumnoVideoForm
-from django.core.files.storage import default_storage
-from django.core.files.base import ContentFile
-import json
-
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-import json
-
-from django.http import JsonResponse
-
-# En views.py
-from django.views.decorators.csrf import csrf_exempt
-
-
-from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 import os
-
-from django.http import JsonResponse, HttpResponse
 import json
 
+from django.utils.decorators import method_decorator
 from website.control_cargos import cargo_required
 
 from django.http import FileResponse
@@ -108,6 +92,7 @@ def carreras(request):
 
     return JsonResponse({"carreras": list(response_data)})
 
+@method_decorator(cargo_required(allowed_roles=['Personal DAE']), name='dispatch') 
 class AlumnoView(View):
     """
         Clase que define la vista del listado de los alumnos registrados
@@ -129,6 +114,7 @@ class AlumnoView(View):
         
         return render(request, 'Alumnos.html', context)
     
+@method_decorator(cargo_required(allowed_roles=['Personal DAE']), name='dispatch') 
 class NAlumnoView(View):
     """
         Clase que define la vista del formulario de alta de Alumnos
@@ -205,6 +191,8 @@ class NAlumnoView(View):
 def asegurarse_de_crear_carpeta(carpeta):
     if not os.path.exists(carpeta):
         os.makedirs(carpeta)
+        
+@method_decorator(cargo_required(allowed_roles=['Personal DAE']), name='dispatch') 
 class CargarAlumnoView(View):
     """
         Clase que define la vista del formulario del registro de fotos y registro del Alumno
