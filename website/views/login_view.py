@@ -43,6 +43,7 @@ class LoginView(View):
             if response_data.get("error_Code") == 0:
                 request.session['usuario'] = response_data["usuario"]
                 request.session['rol'] = response_data["rol"]
+                request.session['cargos'] = response_data.get("cargos", [])
                 
                 return redirect('home')
             else: 

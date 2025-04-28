@@ -1,4 +1,5 @@
 {% load static %}
+{% load tags %}
 <!DOCTYPE html>
 <html lang="es">
 
@@ -43,63 +44,68 @@
                                     <tr>
                                         <td><a href="{% url 'home' %}">Inicio</a></td>
                                     </tr>
-                                    <tr>
-                                        <td>Periodo de ETS</td>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="{% url 'npets' %}">&emsp;Dar de alta periodo</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="{% url 'pets' %}">&emsp;Consultar periodos</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td>ETS</td>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="{% url 'nets' %}">&emsp;Dar de alta ETS</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="{% url 'listETS' %}">&emsp;Consultar lista de ETS</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Alumnos</td>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="{% url 'nalumno' %}">&emsp;Dar de alta alumnos</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="{% url 'nvalumno' %}">&emsp;Registrar video alumnos</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="{% url 'alumno' %}">&emsp;Consultar alumnos</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Inscripciones</td>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="{% url 'ninscripciones' %}">&emsp;Inscribir alumnos a ETS</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="{% url 'inscripciones' %}">&emsp;Consultar inscripciones</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Docentes</td>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="{% url 'ndocente' %}">&emsp;Dar de alta docentes</td>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="{% url 'docente' %}">&emsp;Consultar docentes</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Personal seguridad</td>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="{% url 'nps' %}">&emsp;Dar de alta p. seguridad</td>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="{% url 'ps' %}">&emsp;Consultar p. seguridad</a></td>
-                                    </tr>
+                                    {% if 'Personal DAE' in request.session.rol %}
+                                        <tr>
+                                            <td>Alumnos</td>
+                                        </tr>
+                                        <tr>
+                                            <td><a href="{% url 'nalumno' %}">&emsp;Dar de alta alumnos</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td><a href="{% url 'nvalumno' %}">&emsp;Registrar video alumnos</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td><a href="{% url 'alumno' %}">&emsp;Consultar alumnos</a></td>
+                                        </tr>
+                                    {% endif %}
+
+                                    {% if request.session.rol|contiene_cargo:"Gestión Escolar" %}
+                                        <tr>
+                                            <td>Periodo de ETS</td>
+                                        </tr>
+                                        <tr>
+                                            <td><a href="{% url 'npets' %}">&emsp;Dar de alta periodo</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td><a href="{% url 'pets' %}">&emsp;Consultar periodos</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td>ETS</td>
+                                        </tr>
+                                        <tr>
+                                            <td><a href="{% url 'nets' %}">&emsp;Dar de alta ETS</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td><a href="{% url 'listETS' %}">&emsp;Consultar lista de ETS</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Inscripciones</td>
+                                        </tr>
+                                        <tr>
+                                            <td><a href="{% url 'ninscripciones' %}">&emsp;Inscribir alumnos a ETS</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td><a href="{% url 'inscripciones' %}">&emsp;Consultar inscripciones</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Docentes</td>
+                                        </tr>
+                                        <tr>
+                                            <td><a href="{% url 'ndocente' %}">&emsp;Dar de alta docentes</td>
+                                        </tr>
+                                        <tr>
+                                            <td><a href="{% url 'docente' %}">&emsp;Consultar docentes</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Personal seguridad</td>
+                                        </tr>
+                                        <tr>
+                                            <td><a href="{% url 'nps' %}">&emsp;Dar de alta p. seguridad</td>
+                                        </tr>
+                                        <tr>
+                                            <td><a href="{% url 'ps' %}">&emsp;Consultar p. seguridad</a></td>
+                                        </tr>
+                                    {% endif %}
                                 </tbody>
                             </table>
                         </div>

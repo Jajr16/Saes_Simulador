@@ -26,6 +26,7 @@ import os
 from django.http import JsonResponse, HttpResponse
 import json
 
+from website.control_cargos import cargo_required
 
 from django.http import FileResponse
 import subprocess
