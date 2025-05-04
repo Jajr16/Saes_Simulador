@@ -178,12 +178,25 @@ class NAlumnoView(View):
             response = requests.post(url+api, data=data, files=files)
             response_data = response.json()
             
+            
             print(response_data)
             
             if response_data.get("Error"):
                 return JsonResponse(response_data, status=400)
             else:
-                return JsonResponse(response_data, status=200)
+                data_red = {
+                    "student_id": boleta,
+                    "name": nombre,
+                    "img_path": response_data.get("image_path")
+                }
+                response_red = requests.post("https://face-verification-app-bze0emevhsh5cvdz.mexicocentral-01.azurewebsites.net/api/register_student", data = data_red)
+                response_red_data = response_red.json()
+                print(f'La respuesta es {response_red_data}')
+                
+                if response_red_data.get("student_id") == boleta:
+                    return JsonResponse(response_data, status=200)
+                
+                return JsonResponse({"Error": "Ocurrió un error al hacer el cálculo de la red neuronal."}, status=400)
         
         else:
             return JsonResponse({"message": form.errors, "Error": True}, status=400)
