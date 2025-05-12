@@ -57,6 +57,9 @@
                                         <tr>
                                             <td><a href="{% url 'alumno' %}">&emsp;Consultar alumnos</a></td>
                                         </tr>
+                                        <tr>
+                                            <td><a href="{% url 'ndalumno' %}">&emsp;Registro sin video alumnos</a></td>
+                                        </tr>
                                     {% endif %}
 
                                     {% if request.session.rol|contiene_cargo:"Gestión Escolar" %}

@@ -9,6 +9,10 @@ from django.views.decorators.csrf import csrf_exempt
 import os
 import json
 
+from openpyxl import load_workbook
+import cloudinary
+import cloudinary.uploader
+
 from django.utils.decorators import method_decorator
 from website.control_cargos import cargo_required
 
@@ -280,5 +284,103 @@ class CargarAlumnoView(View):
             else:
                 return JsonResponse(response_data, status=200)
 
+        else:
+            return JsonResponse({"message": "Error en el formulario", "Error": True}, status=400)
+        
+@method_decorator(cargo_required(allowed_roles=['Personal DAE']), name='dispatch') 
+class CargarDatosView(View):
+    """
+        Clase que define la vista del formulario del registro de fotos y registro del Alumno
+    """
+    def get(self, request, *args, **kwargs):
+        """
+            Función para cargar la vista con el formulario
+        """
+        form = NAlumnoVideoForm()
+        return render(request, "New_Alumno_Datos.html", { 'form': form })
+        
+        
+    def post(self, request, *args, **kwargs):
+        """
+            Función post para procesar los datos enviados por el formulario
+        """
+        print(request)
+        
+        api = "nvAlumno"
+        form = NAlumnoVideoForm(request.POST)
+        
+        if form.is_valid(): 
+            boleta = form.cleaned_data['boleta']
+            curp = form.cleaned_data['curp']
+            
+            # Define las rutas para las fotos y los videos
+            foto_path = f"website/views/fotos/{boleta}.jpg"
+            frames_dir = f"website/views/EntrenamientoIMG/{boleta}"
+            excel_path = r"C:\\Users\\alfre\\OneDrive\\Documentos\\Semestres ESCOM\\Semestre 7 - ESCOM\\Control-Acceso\\Programas\\SpringBoot-Java\\src\\main\\java\\com\\example\\PruebaCRUD\\grupos_ESCOM.xlsx"
+
+            boleta_en_excel = False
+
+            wb = load_workbook(excel_path)
+            try:
+                for sheet in wb.sheetnames:
+                    ws = wb[sheet]
+                    for row in ws.iter_rows(min_row=1, max_col=1):  # Solo primera columna
+                        cell_value = str(row[0].value).strip() if row[0].value else ""
+                        if cell_value == boleta:
+                            boleta_en_excel = True
+                            break
+                    if boleta_en_excel:
+                        break
+            except Exception as e:
+                return JsonResponse({"message": f"Error al leer el archivo Excel: {str(e)}", "Error": True}, status=500)
+            finally:
+                wb.close()
+
+            if not os.path.exists(frames_dir) and not boleta_en_excel:
+                return JsonResponse({"message": "La boleta no se encontró ni en las fotos ni en el Excel", "Error": True}, status=404)
+            elif os.path.exists(frames_dir) and not boleta_en_excel:
+                return JsonResponse({"message": "La boleta solo se encontró en las fotos", "Error": False}, status=200)
+            elif not os.path.exists(frames_dir) and boleta_en_excel:
+                return JsonResponse({"message": "La boleta solo se encontró en el Excel", "Error": False}, status=200)
+            else: 
+                
+                credencial_url = None
+                try:
+                    if os.path.exists(foto_path):
+                        upload_result = cloudinary.uploader.upload(foto_path, folder="fotosCredencial", public_id=boleta)
+                        credencial_url = upload_result.get("secure_url")
+                    else:
+                        return JsonResponse({"message": "No se encontró la imagen de la credencial", "Error": True}, status=404)
+                except Exception as e:
+                    return JsonResponse({"message": f"Error al subir la credencial a Cloudinary: {str(e)}", "Error": True}, status=500)
+
+                try:
+                    if os.path.exists(frames_dir):
+                        for filename in os.listdir(frames_dir):
+                            frame_path = os.path.join(frames_dir, filename)
+                            if os.path.isfile(frame_path) and filename.endswith(".png"):
+                                cloudinary.uploader.upload(frame_path, folder=f"frames/{boleta}")
+                    else:
+                        return JsonResponse({"message": "No se encontró la carpeta de frames", "Error": True}, status=404)
+                except Exception as e:
+                    return JsonResponse({"message": f"Error al subir los frames a Cloudinary: {str(e)}", "Error": True}, status=500)
+
+                # Realizar la llamada a la API
+                data = {
+                    "boleta": boleta,
+                    "curp": curp,
+                    "credencial": credencial_url
+                }
+                
+                try:
+                    response = requests.post(url + api, data=data)
+                    response_data = response.json()
+                except Exception as e:
+                    return JsonResponse({"message": f"Error al conectar con la API externa: {str(e)}", "Error": True}, status=500)
+
+                if response_data.get("Error"):
+                    return JsonResponse(response_data, status=400)
+                else:
+                    return JsonResponse(response_data, status=200)
         else:
             return JsonResponse({"message": "Error en el formulario", "Error": True}, status=400)
