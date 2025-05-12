@@ -182,7 +182,6 @@ class NAlumnoView(View):
             response = requests.post(url+api, data=data, files=files)
             response_data = response.json()
             
-            
             print(response_data)
             
             if response_data.get("Error"):
