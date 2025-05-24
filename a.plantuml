@@ -1,0 +1,46 @@
+@startuml
+skinparam packageStyle rectangle
+skinparam classAttributeIconSize 0
+
+' === VISTAS EXTERNAS ===
+actor "App Android\n(Jetpack Compose)" as App
+actor "Página Web\n(Django)" as Web
+
+' === PAQUETES ===
+package "com.example.PruebaCRUD.Controllers" {
+    "class UserController"
+}
+
+package "com.example.PruebaCRUD.Services" {
+    "class UserService"
+    "class UserServiceImpl"
+}
+
+package "com.example.PruebaCRUD.Repositories" {
+    "class UserRepository"
+}
+
+package "com.example.PruebaCRUD.Entities" {
+    "class UserEntity"
+}
+
+package "com.example.PruebaCRUD.DTO" {
+    "class UserDTO"
+}
+
+database "Base de datos\n(PostgreSQL)" as DB
+
+' === RELACIONES ENTRE CAPAS ===
+App --> UserController : REST API
+Web --> UserController : REST API
+
+UserController --> UserService : interface
+UserService <|-- UserServiceImpl
+
+UserServiceImpl --> UserRepository
+UserRepository --> UserEntity
+UserServiceImpl --> UserDTO
+
+UserRepository --> DB : JPA/Hibernate
+
+@enduml
